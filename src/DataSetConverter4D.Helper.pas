@@ -12,7 +12,8 @@ type
 
   TDataSetConverterHelper = class helper for TDataSet
   public
-    function AsJSONObject: TJSONObject;
+    function AsJSONObject: TJSONObject; overload;
+    function AsJSONObject(listFields :array of string): TJSONObject; overload;  //Roberto
     function AsJSONArray: TJSONArray;
 
     function AsJSONObjectString: string;
@@ -48,6 +49,11 @@ end;
 function TDataSetConverterHelper.AsJSONObject: TJSONObject;
 begin
   Result := TConverter.New.DataSet(Self).AsJSONObject;
+end;
+
+function TDataSetConverterHelper.AsJSONObject(listFields :array of string): TJSONObject;
+begin
+  Result := TConverter.New.DataSet(Self).AsJSONObject(listFields);
 end;
 
 function TDataSetConverterHelper.AsJSONObjectString: string;

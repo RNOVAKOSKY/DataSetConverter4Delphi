@@ -5,7 +5,8 @@ interface
 uses
   System.SysUtils,
   System.JSON,
-  Data.DB;
+  Data.DB,
+  FireDAC.Comp.DataSet;
 
 type
 
@@ -19,9 +20,19 @@ type
     function Source(dataSet: TDataSet): IDataSetConverter; overload;
     function Source(dataSet: TDataSet; const owns: Boolean): IDataSetConverter; overload;
 
-    function AsJSONObject: TJSONObject;
+    function AsJSONObject: TJSONObject; overload;
+    function AsJSONObject(fieldList :array of string): TJSONObject; overload; //Roberto
     function AsJSONArray: TJSONArray;
     function AsJSONStructure: TJSONArray;
+    function AsDeltaJSONArray: TJSONArray; //Roberto
+  end;
+
+  IFDDeltaConverter = interface  //Roberto
+    ['{8D995E50-A1DC-4426-A603-762E1387E692}']
+    function Source(delta: IFDDataSetReference): IFDDeltaConverter;
+
+    function AsJSONArray: TJSONArray; overload;
+    function AsJSONArray(const fieldList :array of string): TJSONArray; overload;
   end;
 
   IJSONConverter = interface
@@ -35,6 +46,7 @@ type
     procedure ToDataSet(dataSet: TDataSet);
     procedure ToRecord(dataSet: TDataSet);
     procedure ToStructure(dataSet: TDataSet);
+    procedure ToDeltaDataSet(dataSet: TDataSet);
   end;
 
   IConverter = interface
@@ -42,6 +54,8 @@ type
     function DataSet: IDataSetConverter; overload;
     function DataSet(dataSet: TDataSet): IDataSetConverter; overload;
     function DataSet(dataSet: TDataSet; const owns: Boolean): IDataSetConverter; overload;
+
+    function Delta(delta: IFDDataSetReference): IFDDeltaConverter;
 
     function JSON: IJSONConverter; overload;
     function JSON(json: TJSONObject): IJSONConverter; overload;
