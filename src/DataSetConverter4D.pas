@@ -1,4 +1,4 @@
-unit DataSetConverter4D;
+﻿unit DataSetConverter4D;
 
 interface
 
@@ -22,7 +22,8 @@ type
 
     function AsJSONObject: TJSONObject; overload;
     function AsJSONObject(fieldList :array of string): TJSONObject; overload; //Roberto
-    function AsJSONArray: TJSONArray;
+    function AsJSONArray: TJSONArray; overload;
+    function AsJSONArray(const fieldList :array of string): TJSONArray; overload; //Roberto
     function AsJSONStructure: TJSONArray;
     function AsDeltaJSONArray: TJSONArray; //Roberto
   end;
